@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Léargas SI · Thermal Infrastructure as Settlement Policy</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --ink-2: #3a3a3a;
+    --ink-3: #777;
+    --ink-4: #bbb;
+    --surface: #f6f5f1;
+    --white: #ffffff;
+    --border: rgba(0,0,0,0.09);
+    --border-strong: rgba(0,0,0,0.16);
+    --teal: #0f6e56;
+    --teal-light: #e1f5ee;
+    --teal-mid: #1d9e75;
+    --amber: #7a4600;
+    --amber-light: #fdf3e3;
+    --mono: 'Courier New', Courier, monospace;
+    --serif: 'Georgia', 'Times New Roman', serif;
+    --ui: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--surface);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 16px;
+    line-height: 1.75;
+    min-height: 100vh;
+  }
+
+  .top-bar { height: 5px; background: var(--ink); }
+
+  .page {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 2rem 6rem;
+  }
+
+  /* ── MASTHEAD ── */
+  .masthead { padding: 3.5rem 0 2.5rem; border-bottom: 1.5px solid var(--ink); margin-bottom: 3rem; }
+
+  .framework-line {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 1.25rem;
+  }
+  .framework-line em { font-style: normal; color: var(--teal); font-weight: bold; }
+
+  h1 {
+    font-size: clamp(24px, 4.5vw, 38px);
+    font-weight: normal;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    margin-bottom: 0.75rem;
+  }
+
+  .doc-subtitle {
+    font-size: 16px;
+    color: var(--ink-2);
+    font-style: italic;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+  }
+
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 8px 24px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    margin-bottom: 1.25rem;
+  }
+  .meta-grid strong { color: var(--ink); display: block; font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 1px; }
+
+  .audience-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 1rem; }
+  .aud-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border: 1px solid var(--border-strong);
+    color: var(--ink-2);
+  }
+
+  /* ── METHODOLOGY BOX ── */
+  .method-box {
+    background: var(--ink);
+    color: #e8e4dc;
+    padding: 1.75rem 2rem;
+    margin: 0 0 3rem;
+    font-family: var(--ui);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  .method-box h3 {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #9FE1CB;
+    margin-bottom: 0.75rem;
+    font-weight: normal;
+  }
+  .method-box p { color: #c8c4bc; margin-bottom: 0.6rem; }
+  .method-box p:last-child { margin-bottom: 0; }
+  .method-box strong { color: #e8e4dc; }
+
+  /* ── SECTIONS ── */
+  .section { margin-bottom: 3.5rem; }
+
+  .section-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-4);
+    margin-bottom: 0.4rem;
+  }
+
+  h2 {
+    font-size: 21px;
+    font-weight: normal;
+    letter-spacing: -0.01em;
+    border-bottom: 1px solid var(--border-strong);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  h3 {
+    font-size: 15px;
+    font-weight: bold;
+    font-family: var(--ui);
+    color: var(--ink);
+    margin: 1.75rem 0 0.6rem;
+    letter-spacing: 0.01em;
+  }
+
+  p { margin-bottom: 1rem; font-size: 15.5px; color: var(--ink-2); }
+  p:last-child { margin-bottom: 0; }
+
+  /* ── PULL QUOTE ── */
+  .pullquote {
+    border-left: 4px solid var(--ink);
+    margin: 1.75rem 0;
+    padding: 1rem 1.5rem;
+    background: var(--white);
+    font-size: 16px;
+    color: var(--ink);
+    line-height: 1.65;
+    font-style: italic;
+  }
+  .pullquote em { font-style: normal; font-weight: bold; color: var(--teal); }
+
+  /* ── INSIGHT BLOCK ── */
+  .insight {
+    background: var(--ink);
+    color: #ede8e0;
+    padding: 1.5rem 1.75rem;
+    margin: 1.5rem 0;
+    font-size: 15px;
+    line-height: 1.7;
+    font-family: var(--ui);
+  }
+  .insight em { color: #9FE1CB; font-style: normal; font-weight: bold; }
+
+  /* ── DATA CALLOUT ── */
+  .data-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border-strong);
+    border: 1px solid var(--border-strong);
+    margin: 1.5rem 0;
+  }
+  @media (max-width: 560px) { .data-row { grid-template-columns: 1fr 1fr; } }
+  .data-cell {
+    background: var(--white);
+    padding: 1rem 1.125rem;
+    text-align: center;
+  }
+  .data-num {
+    font-family: var(--mono);
+    font-size: 26px;
+    font-weight: bold;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .data-label { font-family: var(--ui); font-size: 11px; color: var(--ink-3); line-height: 1.4; }
+  .data-src { font-family: var(--mono); font-size: 9px; color: var(--ink-4); margin-top: 3px; }
+
+  /* ── LENS TABLE ── */
+  .lens-table { width: 100%; border-collapse: collapse; margin: 1.25rem 0; font-size: 14px; }
+  .lens-table th {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    text-align: left;
+    padding: 6px 0 8px;
+    border-bottom: 1.5px solid var(--ink);
+  }
+  .lens-table td {
+    padding: 12px 16px 12px 0;
+    vertical-align: top;
+    border-bottom: 1px solid var(--border);
+    color: var(--ink-2);
+    line-height: 1.6;
+    font-family: var(--ui);
+  }
+  .lens-table td:first-child {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: bold;
+    color: var(--ink);
+    white-space: nowrap;
+    padding-right: 20px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    width: 100px;
+  }
+  .lens-table tr:last-child td { border-bottom: none; }
+  .lens-detail { font-size: 12px; color: var(--ink-3); margin-top: 4px; font-style: italic; }
+
+  /* ── RULE ── */
+  .rule { height: 1px; background: var(--border-strong); margin: 3rem 0; }
+
+  /* ── POLICY GRID ── */
+  .policy-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border-strong);
+    border: 1px solid var(--border-strong);
+    margin: 1.25rem 0;
+  }
+  @media (max-width: 500px) { .policy-grid { grid-template-columns: 1fr; } }
+  .policy-cell { background: var(--white); padding: 1rem 1.25rem; }
+  .policy-org { font-family: var(--mono); font-size: 11px; font-weight: bold; color: var(--ink); letter-spacing: 0.06em; margin-bottom: 6px; }
+  .policy-desc { font-size: 13px; color: var(--ink-2); line-height: 1.55; font-family: var(--ui); }
+
+  /* ── MODEL SECTION ── */
+  .model-section {
+    background: var(--white);
+    border: 1.5px solid var(--ink);
+    padding: 2rem;
+    margin: 1.75rem 0 1.25rem;
+  }
+
+  .model-eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 4px;
+  }
+  .model-title { font-size: 16px; font-weight: bold; font-family: var(--ui); color: var(--ink); margin-bottom: 3px; }
+  .model-sub { font-size: 11px; font-family: var(--mono); color: var(--ink-3); margin-bottom: 1rem; }
+
+  .badge-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+  .badge { font-family: var(--mono); font-size: 10px; letter-spacing: 0.03em; padding: 2px 8px; border: 1px solid; }
+  .badge-v { background: var(--teal-light); color: var(--teal); border-color: var(--teal-mid); }
+  .badge-a { background: var(--amber-light); color: var(--amber); border-color: #d4860a; }
+
+  .controls-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 1.5rem; }
+  @media (max-width: 580px) { .controls-grid { grid-template-columns: 1fr; } }
+
+  .ctrl-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+  .ctrl-val { font-family: var(--mono); font-size: 24px; font-weight: bold; color: var(--ink); margin-bottom: 6px; letter-spacing: -0.02em; }
+  .ctrl-range-labels { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 9px; color: var(--ink-4); margin-top: 3px; }
+
+  input[type=range] {
+    width: 100%; height: 3px;
+    -webkit-appearance: none; appearance: none;
+    background: var(--border-strong); outline: none; cursor: pointer;
+  }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; background: var(--ink); border-radius: 50%; }
+  input[type=range]::-moz-range-thumb { width: 16px; height: 16px; background: var(--ink); border-radius: 50%; border: none; }
+
+  .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 8px; }
+  @media (max-width: 480px) { .metrics-grid { grid-template-columns: 1fr 1fr; } }
+
+  .metric { padding: 12px 14px; background: var(--surface); border: 1px solid var(--border); }
+  .metric.primary { background: var(--white); border: 1px solid var(--border-strong); }
+  .metric-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 4px; }
+  .metric-val { font-family: var(--mono); font-size: 22px; font-weight: bold; color: var(--ink); line-height: 1; margin-bottom: 2px; }
+  .metric-unit { font-family: var(--mono); font-size: 10px; color: var(--ink-3); }
+
+  .chart-section { margin-top: 1.5rem; }
+  .chart-title { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); text-align: center; margin-bottom: 8px; }
+  .chart-wrap { position: relative; width: 100%; height: 180px; }
+
+  .precedent {
+    background: var(--teal-light);
+    border-left: 4px solid var(--teal-mid);
+    padding: 1rem 1.25rem;
+    margin-top: 1.5rem;
+  }
+  .precedent-title { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); font-weight: bold; margin-bottom: 6px; }
+  .precedent-text { font-size: 13px; color: var(--ink-2); line-height: 1.6; font-family: var(--ui); }
+
+  .assumptions { border: 1px solid var(--border); margin-top: 1.25rem; }
+  .assumptions-header { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); padding: 8px 12px; border-bottom: 1px solid var(--border); background: var(--surface); }
+  .assumption-row { display: flex; justify-content: space-between; align-items: baseline; padding: 7px 12px; font-family: var(--mono); font-size: 11px; border-bottom: 1px solid var(--border); gap: 1rem; }
+  .assumption-row:last-child { border-bottom: none; }
+  .assumption-key { color: var(--ink-2); flex-shrink: 0; }
+  .assumption-src { color: var(--ink-3); font-size: 10px; text-align: right; }
+
+  /* ── SENSITIVITY INTERPRETATION ── */
+  .interp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 1rem 0; }
+  @media (max-width: 480px) { .interp-grid { grid-template-columns: 1fr; } }
+  .interp-cell { border: 1px solid var(--border); padding: 10px 12px; }
+  .interp-scenario { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 4px; }
+  .interp-val { font-family: var(--mono); font-size: 16px; font-weight: bold; color: var(--ink); margin-bottom: 3px; }
+  .interp-desc { font-size: 12px; color: var(--ink-3); font-family: var(--ui); line-height: 1.4; }
+
+  /* ── SCOPE BOX ── */
+  .scope-box { border: 1px solid var(--border-strong); padding: 1.5rem; margin: 1.25rem 0; background: var(--white); }
+  .scope-box h3 { margin-top: 0; font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 0.75rem; font-weight: normal; }
+  .scope-item { display: flex; gap: 10px; margin-bottom: 8px; font-size: 13px; color: var(--ink-2); font-family: var(--ui); line-height: 1.5; }
+  .scope-marker { font-family: var(--mono); font-size: 11px; color: var(--ink-4); flex-shrink: 0; padding-top: 2px; }
+
+  /* ── BIBLIOGRAPHY ── */
+  .bib-list { list-style: none; font-family: var(--mono); font-size: 11px; color: var(--ink-3); }
+  .bib-list li { padding: 7px 0; border-bottom: 1px solid var(--border); line-height: 1.6; }
+  .bib-list li:last-child { border-bottom: none; }
+  .bib-list strong { color: var(--ink); }
+  .bib-num { color: var(--ink-4); margin-right: 8px; }
+
+  /* ── FOOTER ── */
+  footer {
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    border-top: 1.5px solid var(--ink);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  footer strong { color: var(--ink); }
+
+  @media (max-width: 600px) { .page { padding: 0 1.25rem 4rem; } h1 { font-size: 22px; } }
+</style>
+</head>
+<body>
+
+<div class="top-bar"></div>
+<div class="page">
+
+<!-- ── MASTHEAD ── -->
+<div class="masthead">
+  <div class="framework-line">
+    <em>Léargas SI</em> · Systems Intelligence Framework · Analytical Whitepaper · v2.0
+  </div>
+  <h1>Thermal Infrastructure as Settlement Policy</h1>
+  <p class="doc-subtitle">Data Centre Waste Heat Recovery as a Response to Ireland's Dual Crisis: Grid Stability and Housing</p>
+  <div class="meta-grid">
+    <div><strong>Author</strong>Ahmet Selahaddin Topbaş</div>
+    <div><strong>Lab</strong>TOPBASCH Systems Lab</div>
+    <div><strong>Framework</strong>Léargas SI v2</div>
+    <div><strong>Date</strong>May 2026</div>
+  </div>
+  <div class="audience-row">
+    <span class="aud-tag">EirGrid</span>
+    <span class="aud-tag">SEAI</span>
+    <span class="aud-tag">CRU</span>
+    <span class="aud-tag">IDA Ireland</span>
+  </div>
+</div>
+
+<!-- ── METHODOLOGY NOTE ── -->
+<div class="method-box">
+  <h3>About Léargas SI — methodological note</h3>
+  <p>Léargas SI (Systems Intelligence) is a domain-specific analytical framework built on the foundation of the PESTLE methodology — refining it for energy system analysis. Where PESTLE applies six dimensions (Political, Economic, Social, Technological, Legal, Environmental) to strategic assessment, Léargas SI replaces the generic Economic and Environmental lenses with a domain-calibrated <strong>Exergetic lens</strong>, which evaluates not just energy quantity but thermodynamic quality and recovery potential.</p>
+  <p>The result is a six-lens framework — Technical, Financial, Political, Ecological, Social, Exergetic — that retains PESTLE's structural familiarity while enabling analytically precise evaluation of energy infrastructure decisions. Where PESTLE asks "what is the environmental impact?", Léargas SI asks "what grade of energy is being wasted, and what is its recoverable economic value?" This distinction is analytically consequential in any system involving thermal flows.</p>
+  <p>This whitepaper constitutes the first published application of Léargas SI v2 to an Irish infrastructure case.</p>
+</div>
+
+<!-- ── SECTION 1 ── -->
+<div class="section">
+  <div class="section-num">Section 1</div>
+  <h2>The Structural Tension</h2>
+
+  <p>EirGrid's Grid-Forming Strategy correctly identifies the inertia deficit created by retiring synchronous generators. As thermal generation exits the Irish system, the synthetic inertia needed for grid stability must be sourced from new mechanisms — battery storage, synchronous condensers, and demand-side flexibility. The strategy, however, addresses only the supply side of this transition.</p>
+
+  <p>Data centres represent a growing and systematically underanalysed dimension of this challenge. In 2023, data centres accounted for 20.1% of all Irish electricity demand, up from an estimated 14% in 2020 [1]. EirGrid projects this share reaching 31% by 2034 under current connection trajectories. This concentration creates a structural dependency: the grid's largest demand class operates largely outside the GFM mandate and contributes no thermal inertia to the system it stresses.</p>
+
+  <div class="data-row">
+    <div class="data-cell">
+      <div class="data-num">20.1%</div>
+      <div class="data-label">Data centre share of Irish electricity, 2023</div>
+      <div class="data-src">SEAI Energy in Ireland, 2024 [1]</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-num">31%</div>
+      <div class="data-label">Projected share by 2034 under current trajectory</div>
+      <div class="data-src">EirGrid GFM Strategy [2]</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-num">1,070 MW</div>
+      <div class="data-label">Upcoming Irish data centre capacity pipeline</div>
+      <div class="data-src">ResearchAndMarkets, 2025 [3]</div>
+    </div>
+  </div>
+
+  <p>Simultaneously, Ireland's housing crisis concentrates population pressure on the Greater Dublin Area (GDA), where land costs and planning constraints prohibit affordable residential development at the required scale. The National Development Plan targets over 50% of population growth outside the Dublin core — yet the policy instruments to achieve voluntary, infrastructure-led decentralisation remain underspecified.</p>
+
+  <p>A third dimension is overlooked in both policy discussions: data centres operate at severe exergetic loss. Modern hyperscale facilities with Power Usage Effectiveness (PUE) ratios of 1.2–1.5 convert 17–33% of consumed electrical energy into waste heat — discharged to atmosphere with no economic recovery. In liquid-cooled systems, this waste heat is available at 60–80°C: a temperature band directly usable in modern low-temperature district heating networks without additional upgrade [4].</p>
+
+  <div class="pullquote">
+    Two structural failures — <em>grid inertia deficit</em> and <em>housing concentration</em> — are being managed as separate problems. They share a common asset: stranded thermal energy generated at scale, at the right locations, at the right temperature.
+  </div>
+</div>
+
+<!-- ── SECTION 2 ── -->
+<div class="section">
+  <div class="section-num">Section 2</div>
+  <h2>The Core Insight: Two Crises, One Infrastructure</h2>
+
+  <h3>The conventional framing and its failure</h3>
+  <p>The standard policy question asks: "How do we pipe Dublin's data centre waste heat to where housing demand exists?" This framing fails on physics and economics. District heating networks are economically unviable beyond approximately 15–40 km for large residential loads, due to pipeline heat losses and capital cost per connection. Dublin's housing demand is concentrated within the M50 ring; its data centres are migrating outward. The gap between demand concentration and heat source location is widening under the current policy trajectory.</p>
+
+  <h3>The correct reframing</h3>
+  <div class="insight">
+    The productive question is the inverse: <em>bring housing to the heat source.</em> Data centres are already migrating to the GDA periphery — Kildare, Meath, Wicklow — driven by EirGrid's moratorium on new data centre connections in Dublin and by lower land costs outside the capital [5]. These are precisely the counties where the National Development Framework designates new residential growth zones. The spatial convergence is not coincidental. It is a structural alignment that existing policy has not yet activated.
+  </div>
+
+  <h3>Why this is a demand-side GFM mechanism</h3>
+  <p>District heating supplied by data centre waste heat creates an aggregated, predictable thermal load at the data centre site. This load profile — large, geographically fixed, operationally continuous — is structurally compatible with demand-response participation in EirGrid's future GFM framework. A data centre operator with a thermal offtake obligation has an economic incentive to stabilise its own load profile, reducing curtailment events and improving grid compatibility. The thermal link converts a passive demand centre into a candidate flexibility asset.</p>
+
+  <p>Specific confirmed peripheral locations include: Meta Clonee (Co. Meath, 288 MW), Echelon DUB20 at Arklow (Co. Wicklow, planning approved, €3.5 billion campus), and multiple upcoming facilities in Kildare identified in the 2025 market database [3, 5]. All three counties appear in NDF regional growth designations.</p>
+</div>
+
+<!-- ── SECTION 3 ── -->
+<div class="section">
+  <div class="section-num">Section 3</div>
+  <h2>Six-Lens Assessment — Léargas SI v2</h2>
+
+  <table class="lens-table">
+    <thead><tr><th>Lens</th><th>Analysis</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Technical</td>
+        <td>
+          District heating networks are technically viable within 5–15 km of GDA-peripheral data centres. Liquid-cooled systems supply heat at 60–80°C, compatible with modern low-temperature DH networks without additional heat pump upgrade — a significant capital cost advantage over lower-temperature industrial sources. The SEAI National Heat Study (2022) demonstrates that cost per MWh plateaus at heat densities above 1,000 MWh/km, not the previously assumed 10,000 MWh/km threshold, substantially expanding the viable deployment zone [4]. The Tallaght District Heating Network, operational since April 2023, confirms technical feasibility in the Irish context.
+          <div class="lens-detail">Key constraint: heat recovery equipment must be installed at the data centre; operator cooperation is required. Commercial arrangements remain to be standardised.</div>
+        </td>
+      </tr>
+      <tr>
+        <td>Financial</td>
+        <td>
+          Near-zero space heating cost — the primary household energy expenditure in Ireland, averaging €660–€1,320 annually for gas customers — constitutes a locational advantage that reduces effective housing cost without direct capital subsidy to residents. Pipeline capital expenditure of approximately €2M/km (SEAI NHS 2022, Appendix B [4]) is recoverable against heat tariff revenue within 4–12 years at standard commercial rates of €50–80/MWh, competitive against gas at approximately €120/MWh at 2025 market prices. The Tallaght precedent demonstrates that Amazon Web Services supplies waste heat at no monetary cost as a corporate sustainability commitment — a model that reduces operator-side financial barriers.
+          <div class="lens-detail">Key constraint: long-term heat supply agreements with data centre operators require regulatory underpinning not yet in place.</div>
+        </td>
+      </tr>
+      <tr>
+        <td>Political</td>
+        <td>
+          The proposal integrates into four active state workstreams without requiring new institutions. SEAI's District Heating Development Programme provides feasibility and pre-construction funding. IDA Ireland's peripheral siting incentives are already directing data centre investment to the relevant counties. The NDF designates Kildare, Meath, and Wicklow as primary growth corridors. The District Heating Steering Group (established under Climate Action Plan 2021, reporting annually to Government) explicitly recommended in its 2023 report that the Department of Housing strengthen DH references in the National Planning Framework [6]. The regulatory hook for thermal obligations on new data centre grid connections remains the most underdeveloped link — but the CRU has precedent for demand-side conditions in connection agreements.
+        </td>
+      </tr>
+      <tr>
+        <td>Ecological</td>
+        <td>
+          Waste heat recovery reduces the thermodynamic inefficiency of data centre operation without changing IT output — a genuine efficiency gain rather than a substitution. The Tallaght scheme achieved 1,265 tonnes of CO₂ savings in its first operational year (2024) from a 32,800 m² heated area [6]. Scaled to a Clonee-equivalent thermal output, the CO₂ impact is proportionally larger. District heating also reduces reliance on oil — Ireland's dominant residential heating fuel, at 36% of household energy, the highest share of any EU member state except Cyprus [7]. Decarbonisation of heat is one of Ireland's most underperforming climate targets; this mechanism addresses it structurally rather than through individual retrofit subsidies.
+          <div class="lens-detail">SEAI Climate Action Plan 2024 targets 2.7 TWh of district heating by 2030 — current installed capacity is below 0.1 TWh [6].</div>
+        </td>
+      </tr>
+      <tr>
+        <td>Social</td>
+        <td>
+          The mechanism offers voluntary decentralisation incentivised by housing economics, not administrative direction. Peripheral housing with near-zero heating cost is locationally competitive with Dublin despite lower amenity — particularly for households where remote work reduces commute dependency. This does not solve Dublin's housing crisis but reduces the rate of demand concentration. The geographic equity dimension is significant: peripheral counties consistently show lower housing completion rates, lower rental yields, and higher fuel poverty rates than the GDA. A heating cost advantage distributed to new housing clusters addresses a dimension of geographic inequality that capital-subsidy programmes have failed to reach efficiently.
+        </td>
+      </tr>
+      <tr>
+        <td>Exergetic</td>
+        <td>
+          This is the Léargas SI differentiator. Standard environmental analysis records waste heat as a cost — a PUE inefficiency to be minimised. Exergetic analysis asks: at what temperature grade is this energy available, and what is its maximum recoverable work value? At 60–80°C, data centre waste heat falls within the useful temperature band for space and water heating — its exergetic quality is matched to the application. Routing it to residential heating recovers economic value that atmospheric discharge destroys entirely. The Total Factor Productivity contribution is measurable: avoided imported gas per heated household, multiplied by the number of households served. At the Clonee scale, this represents a non-trivial reduction in Irish energy import dependency.
+          <div class="lens-detail">Exergetic quality assessment distinguishes this analysis from standard PESTLE: the mechanism is viable precisely because the waste heat temperature matches the application temperature — not all waste heat sources share this property.</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ── SECTION 3b ── -->
+<div class="section">
+  <div class="section-num">Section 3b</div>
+  <h2>Scale Quantification — Live Model</h2>
+
+  <p>Framework analysis requires empirical anchoring. A single verified facility — Meta Clonee, Co. Meath — is used to quantify the order of magnitude of this mechanism. All parameters are visible, all sources are cited, and the model is interactive: adjust assumptions below to test sensitivity.</p>
+
+  <div class="model-section">
+    <div class="model-eyebrow">Interactive simulation · adjust parameters to test sensitivity</div>
+    <div class="model-title">Waste Heat Recovery — Meta Clonee, Co. Meath (288 MW IT)</div>
+    <div class="model-sub">Léargas SI · Section 3b · Quantitative model v2.0 · May 2026</div>
+
+    <div class="badge-row">
+      <span class="badge badge-v">✓ 288 MW IT capacity · AI Data Center Index, 2026</span>
+      <span class="badge badge-v">✓ 11,000 kWh/yr/home · SEAI</span>
+      <span class="badge badge-v">✓ €2M/km pipeline · SEAI NHS 2022</span>
+      <span class="badge badge-a">~ PUE · adjustable</span>
+      <span class="badge badge-a">~ Recovery rate · adjustable</span>
+      <span class="badge badge-a">~ Distance · adjustable</span>
+    </div>
+
+    <div class="controls-grid">
+      <div>
+        <div class="ctrl-label">Power Usage Effectiveness (PUE)</div>
+        <div class="ctrl-val" id="pue-display">1.30</div>
+        <input type="range" min="110" max="160" value="130" step="1" id="pue-slider" aria-label="PUE slider">
+        <div class="ctrl-range-labels"><span>1.10 best-in-class</span><span>1.60 older</span></div>
+      </div>
+      <div>
+        <div class="ctrl-label">Heat recovery rate</div>
+        <div class="ctrl-val" id="rec-display">40%</div>
+        <input type="range" min="20" max="65" value="40" step="1" id="rec-slider" aria-label="Heat recovery rate slider">
+        <div class="ctrl-range-labels"><span>20% conservative</span><span>65% liquid-cool</span></div>
+      </div>
+      <div>
+        <div class="ctrl-label">Pipeline distance</div>
+        <div class="ctrl-val" id="dist-display">8 km</div>
+        <input type="range" min="5" max="15" value="8" step="1" id="dist-slider" aria-label="Pipeline distance slider">
+        <div class="ctrl-range-labels"><span>5 km</span><span>15 km DH limit</span></div>
+      </div>
+    </div>
+
+    <div class="metrics-grid">
+      <div class="metric"><div class="metric-label">Recoverable heat</div><div class="metric-val" id="m-mw">—</div><div class="metric-unit">MW thermal</div></div>
+      <div class="metric primary"><div class="metric-label">Annual thermal output</div><div class="metric-val" id="m-gwh">—</div><div class="metric-unit">GWh / year</div></div>
+      <div class="metric primary"><div class="metric-label">Homes heated</div><div class="metric-val" id="m-homes">—</div><div class="metric-unit">at 11,000 kWh/yr</div></div>
+    </div>
+    <div class="metrics-grid">
+      <div class="metric"><div class="metric-label">Pipeline capex</div><div class="metric-val" id="m-capex">—</div><div class="metric-unit">€M primary pipeline</div></div>
+      <div class="metric"><div class="metric-label">Annual heat value</div><div class="metric-val" id="m-aval">—</div><div class="metric-unit">€M/yr at €60/MWh</div></div>
+      <div class="metric primary"><div class="metric-label">Simple payback</div><div class="metric-val" id="m-payback">—</div><div class="metric-unit">years · pipeline only</div></div>
+    </div>
+
+    <div class="chart-section">
+      <div class="chart-title">Homes heated vs. heat recovery rate (at current PUE)</div>
+      <div class="chart-wrap">
+        <canvas id="sens-chart" role="img" aria-label="Line chart showing homes heated at different recovery rates from 20 to 65 percent">Homes heated increases from approximately 30,000 at 20% recovery to over 90,000 at 65% recovery.</canvas>
+      </div>
+    </div>
+
+    <div class="precedent">
+      <div class="precedent-title">Operational precedent — Tallaght District Heating, Co. Dublin (April 2023)</div>
+      <p class="precedent-text">Amazon Web Services supplies waste heat at no cost to South Dublin County Council's Heat Works scheme. Connections: 133 residential apartments, TU Dublin campus, SDCC offices, public library (32,800 m² total). CO₂ savings: 1,265 tonnes in 2024. Funding: EU Interreg NWE + Climate Action Fund (~€4.9M) + SEAI + SDCC. The Clonee → Meath NDP housing zone scenario applies the identical operational model at approximately 40× thermal scale. [6]</p>
+    </div>
+
+    <div class="assumptions">
+      <div class="assumptions-header">Assumption transparency — all sources cited</div>
+      <div class="assumption-row"><span class="assumption-key">IT capacity — Meta Clonee</span><span class="assumption-src">288 MW · AI Data Center Index, March 2026</span></div>
+      <div class="assumption-row"><span class="assumption-key">Residential heat demand (space + water)</span><span class="assumption-src">11,000 kWh/yr · SEAI Residential Statistics [7]</span></div>
+      <div class="assumption-row"><span class="assumption-key">Primary pipeline unit cost</span><span class="assumption-src">€2M/km · SEAI National Heat Study 2022, Appendix B [4]</span></div>
+      <div class="assumption-row"><span class="assumption-key">Heat tariff reference</span><span class="assumption-src">€60/MWh vs gas ~€120/MWh · 2025 market prices</span></div>
+      <div class="assumption-row"><span class="assumption-key">Plant availability factor</span><span class="assumption-src">90% · hyperscale data centre industry standard</span></div>
+      <div class="assumption-row"><span class="assumption-key">Capex scope boundary</span><span class="assumption-src">Primary trunk pipeline only — secondary distribution excluded</span></div>
+    </div>
+  </div>
+
+  <h3>Interpreting the sensitivity range</h3>
+  <p>The three scenarios below represent defensible parameter combinations, not extremes. Each is anchored to a specific operator type:</p>
+
+  <div class="interp-grid">
+    <div class="interp-cell">
+      <div class="interp-scenario">Conservative</div>
+      <div class="interp-val" id="s-conservative">—</div>
+      <div class="interp-desc">PUE 1.45, 25% recovery, 12 km. Air-cooled legacy system, partial heat capture. Lower bound of realistic deployment.</div>
+    </div>
+    <div class="interp-cell">
+      <div class="interp-scenario">Central</div>
+      <div class="interp-val" id="s-central">—</div>
+      <div class="interp-desc">PUE 1.30, 40% recovery, 8 km. Mixed cooling, partial liquid-cool. Basis for feasibility study recommendation.</div>
+    </div>
+    <div class="interp-cell">
+      <div class="interp-scenario">Optimistic</div>
+      <div class="interp-val" id="s-optimistic">—</div>
+      <div class="interp-desc">PUE 1.15, 60% recovery, 6 km. Purpose-designed liquid-cool with integrated heat recovery from construction. New campus model.</div>
+    </div>
+  </div>
+
+  <p style="font-size:13px; color: var(--ink-3); font-family: var(--ui); margin-top: 1rem;">
+    <em>Model boundary:</em> These figures represent annual thermal ceiling at each parameter setting. Actual utilisation would be reduced by seasonal demand variation, network losses (~10%), and peak load sizing. A full engineering feasibility study would apply hourly demand profiles and diversification factors. These numbers answer the question "is the scale of opportunity meaningful?" — not "what should the system be sized to?"
+  </p>
+</div>
+
+<div class="rule"></div>
+
+<!-- ── SECTION 4 ── -->
+<div class="section">
+  <div class="section-num">Section 4</div>
+  <h2>Existing Policy Hooks — No New Institutions Required</h2>
+
+  <p>A common obstacle to cross-sectoral infrastructure proposals is institutional complexity. This proposal does not require new agencies, new legislation, or new funding instruments. Four active state workstreams already provide the hooks:</p>
+
+  <div class="policy-grid">
+    <div class="policy-cell">
+      <div class="policy-org">SEAI</div>
+      <p class="policy-desc">District Heating Development Programme provides pre-construction feasibility funding and capital support. The National Heat Study (2022) explicitly identifies data centre waste heat as a priority resource and maps 20 data centre sites with thermal recovery potential clustered around Dublin. A National DH Centre of Excellence was recommended in 2023.</p>
+    </div>
+    <div class="policy-cell">
+      <div class="policy-org">IDA Ireland</div>
+      <p class="policy-desc">Active data centre siting policy already directs investment to GDA-peripheral counties. Thermal output obligations could be embedded in future site development agreements or investment incentive conditions — consistent with IDA's existing sustainability requirements framework.</p>
+    </div>
+    <div class="policy-cell">
+      <div class="policy-org">CRU</div>
+      <p class="policy-desc">As the grid connection regulator, CRU has precedent for attaching conditions to large demand connection agreements. A future GFM demand-side mandate could include thermal output obligations as a condition of connection — converting waste heat recovery from voluntary to structural.</p>
+    </div>
+    <div class="policy-cell">
+      <div class="policy-org">NDF / LDA</div>
+      <p class="policy-desc">The National Development Framework designates Kildare, Meath, and Wicklow as primary growth corridors for post-2030 housing. The Land Development Agency holds strategic sites in these counties. Thermal infrastructure availability is a legitimate input to site selection and viability assessment.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── SECTION 5 ── -->
+<div class="section">
+  <div class="section-num">Section 5</div>
+  <h2>Scope and Limitations</h2>
+
+  <div class="scope-box">
+    <h3>What this paper claims — and does not claim</h3>
+    <div class="scope-item"><span class="scope-marker">✓</span><span>The scale of opportunity at a single verified facility (Meta Clonee, 288 MW) is large enough to warrant formal feasibility assessment — this is demonstrated by the quantitative model.</span></div>
+    <div class="scope-item"><span class="scope-marker">✓</span><span>The spatial alignment between data centre migration and NDP housing growth zones is real and currently underutilised in policy design.</span></div>
+    <div class="scope-item"><span class="scope-marker">✓</span><span>Operational precedent (Tallaght, 2023) confirms technical and commercial feasibility at a smaller scale in the Irish context.</span></div>
+    <div class="scope-item"><span class="scope-marker">○</span><span>This paper does not model hourly demand profiles, seasonal utilisation curves, or secondary distribution network costs. These require engineering-level feasibility studies.</span></div>
+    <div class="scope-item"><span class="scope-marker">○</span><span>Heat supply agreement structures, operator compensation models, and consumer protection frameworks are outside this paper's scope. The Tallaght model (no-cost supply) may not be universally replicable at commercial scale.</span></div>
+    <div class="scope-item"><span class="scope-marker">○</span><span>The Léargas SI exergetic lens quantifies the opportunity in thermodynamic and economic terms; it does not replace engineering thermodynamic analysis. PUE and recovery rate assumptions are indicative, not design parameters.</span></div>
+  </div>
+</div>
+
+<!-- ── SECTION 6 ── -->
+<div class="section">
+  <div class="section-num">Section 6</div>
+  <h2>Recommended Next Step</h2>
+
+  <p>The case for a joint feasibility study is proportionate to the scale demonstrated. At the central scenario, a single GDA-peripheral data centre can supply recoverable thermal energy equivalent to the annual heating demand of 40,000–70,000 homes — a meaningful share of the NDP's peripheral housing growth targets for Meath and Kildare through 2040.</p>
+
+  <p>A joint feasibility study across SEAI, EirGrid, and IDA Ireland should:</p>
+
+  <p>— Map all GDA-peripheral data centre sites with confirmed or planned liquid-cooling infrastructure and quantify recoverable thermal output by temperature band<br>
+  — Overlay thermal output potential against NDP housing growth zones at 5 km, 10 km, and 15 km proximity bands<br>
+  — Model DH network costs against avoided grid balancing costs and household heating subsidies under Climate Action Plan scenarios<br>
+  — Identify the CRU regulatory pathway for including thermal output obligations in future GFM demand-side connection requirements</p>
+
+  <div class="insight">
+    Ireland's dual crisis — grid instability and housing unaffordability — shares a common structural root: the geographic and systemic misallocation of infrastructure value. Data centres produce exergetic waste at scale. Housing demand is concentrated where land is scarce. <em>Aligning the two through thermal district heating infrastructure converts a dual liability into a dual solution</em> — without requiring new institutions, new technologies, or public capital beyond feasibility investment. The question is not whether this is technically possible. The Tallaght scheme has already answered that. The question is whether the regulatory and commercial frameworks will be designed to activate it at scale.
+  </div>
+</div>
+
+<div class="rule"></div>
+
+<!-- ── BIBLIOGRAPHY ── -->
+<div class="section">
+  <div class="section-num">References</div>
+  <h2>Bibliography</h2>
+  <ul class="bib-list">
+    <li><span class="bib-num">[1]</span> <strong>SEAI.</strong> Energy in Ireland 2024 Report. Sustainable Energy Authority of Ireland, 2024. seai.ie</li>
+    <li><span class="bib-num">[2]</span> <strong>EirGrid.</strong> Grid-Forming Strategy. EirGrid Group, 2024. eirgridgroup.com</li>
+    <li><span class="bib-num">[3]</span> <strong>ResearchAndMarkets / Arizton.</strong> Ireland Existing and Upcoming Data Center Portfolio Database 2025. February 2026. Locations: Meath, Kildare, Wicklow confirmed in coverage.</li>
+    <li><span class="bib-num">[4]</span> <strong>SEAI.</strong> District Heating and Cooling: Spatial Analysis of Infrastructure Costs and Potential in Ireland (National Heat Study). SEAI, 2022. Appendix B: Network Costs. seai.ie</li>
+    <li><span class="bib-num">[5]</span> <strong>Baxtel / Echelon Data Centres.</strong> Echelon DUB20 Campus, Arklow, Co. Wicklow. Grid connection secured; €3.5 billion campus outside EirGrid Dublin moratorium zone. baxtel.com</li>
+    <li><span class="bib-num">[6]</span> <strong>Enable Research / Heat Works / SDCC.</strong> District Heating Ireland: Projects, Policy and Potential. March 2026. Includes Tallaght operational data: 133 apartments, TU Dublin, 1,265 tCO₂ saved in 2024. enable-research.ie</li>
+    <li><span class="bib-num">[7]</span> <strong>SEAI.</strong> Energy in the Residential Sector. SEAI Statistics. Gas consumption: ~11,000 kWh/yr national average; oil share: 36% of household energy, highest in EU except Cyprus. seai.ie</li>
+    <li><span class="bib-num">[8]</span> <strong>AI Data Center Index.</strong> Meta — Clonee AI Data Center Campus (288 MW). March 2026. aidatacenterindex.com</li>
+    <li><span class="bib-num">[9]</span> <strong>District Heating Steering Group.</strong> Annual Report 2023. Recommendations to Government including NDF integration and National DH Centre of Excellence. Department of the Environment, Climate and Communications, 2023.</li>
+  </ul>
+</div>
+
+</div>
+
+<!-- ── FOOTER ── -->
+<div class="page" style="padding-top:0;">
+  <footer>
+    <div>
+      <strong>TOPBASCH Systems Lab</strong><br>
+      Léargas SI Analytical Framework v2<br>
+      Ahmet Selahaddin Topbaş · ATÜ · May 2026
+    </div>
+    <div style="text-align: right;">
+      Methodology: Léargas SI (PESTLE + Exergetic lens)<br>
+      Model: quantitative, open-parameter, interactive<br>
+      First published application of Léargas SI v2
+    </div>
+  </footer>
+</div>
+
+<script>
+const IT_MW = 288, AVAIL = 0.90, HD = 11000, PIPE = 2, TAR = 60;
+
+function homes(pue, rec) {
+  return Math.round(IT_MW * pue * rec * 8760 * AVAIL / HD);
+}
+
+function fmt(n) { return Math.round(n).toLocaleString('en-IE'); }
+
+let chart;
+
+function initChart() {
+  chart = new Chart(document.getElementById('sens-chart'), {
+    type: 'line',
+    data: {
+      labels: ['20%','25%','30%','35%','40%','45%','50%','55%','60%','65%'],
+      datasets: [{
+        label: 'Homes heated',
+        data: [],
+        borderColor: '#0f6e56',
+        backgroundColor: 'rgba(15,110,86,0.07)',
+        borderWidth: 2, fill: true, tension: 0.3,
+        pointRadius: 4, pointBackgroundColor: '#0f6e56',
+        pointBorderColor: '#fff', pointBorderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ' ' + ctx.parsed.y.toLocaleString('en-IE') + ' homes' } }
+      },
+      scales: {
+        x: { ticks: { font: { size: 10, family: 'Courier New' }, color: '#999' }, grid: { display: false } },
+        y: { ticks: { font: { size: 10, family: 'Courier New' }, color: '#999', callback: v => (v/1000).toFixed(0) + 'k' }, grid: { color: 'rgba(0,0,0,0.04)' } }
+      }
+    }
+  });
+}
+
+function updateScenarios() {
+  const c = homes(1.45, 0.25);
+  const m = homes(1.30, 0.40);
+  const o = homes(1.15, 0.60);
+  document.getElementById('s-conservative').textContent = fmt(c) + ' homes';
+  document.getElementById('s-central').textContent = fmt(m) + ' homes';
+  document.getElementById('s-optimistic').textContent = fmt(o) + ' homes';
+}
+
+function calc() {
+  const pue = parseInt(document.getElementById('pue-slider').value) / 100;
+  const rec = parseInt(document.getElementById('rec-slider').value) / 100;
+  const dist = parseInt(document.getElementById('dist-slider').value);
+
+  document.getElementById('pue-display').textContent = pue.toFixed(2);
+  document.getElementById('rec-display').textContent = Math.round(rec * 100) + '%';
+  document.getElementById('dist-display').textContent = dist + ' km';
+
+  const totalMW = IT_MW * pue;
+  const recMW = Math.round(totalMW * rec);
+  const gwh = Math.round(recMW * 8760 * AVAIL / 1000);
+  const h = Math.round(gwh * 1e6 / HD);
+  const capex = (dist * PIPE).toFixed(1);
+  const aval = (gwh * 1000 * TAR / 1e6).toFixed(1);
+  const pb = (parseFloat(capex) / parseFloat(aval)).toFixed(1);
+
+  document.getElementById('m-mw').textContent = fmt(recMW);
+  document.getElementById('m-gwh').textContent = fmt(gwh);
+  document.getElementById('m-homes').textContent = fmt(h);
+  document.getElementById('m-capex').textContent = '€' + capex + 'M';
+  document.getElementById('m-aval').textContent = '€' + aval + 'M';
+  document.getElementById('m-payback').textContent = pb;
+
+  const rates = [20,25,30,35,40,45,50,55,60,65];
+  chart.data.datasets[0].data = rates.map(r => Math.round(totalMW * (r/100) * 8760 * AVAIL / HD));
+  chart.update('none');
+}
+
+window.addEventListener('load', () => {
+  initChart();
+  updateScenarios();
+  calc();
+  ['pue-slider','rec-slider','dist-slider'].forEach(id =>
+    document.getElementById(id).addEventListener('input', calc)
+  );
+});
+</script>
+</body>
+</html>

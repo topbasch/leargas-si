@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Léargas SI · Stranded Watts — Hornsea 3 Grid Connection Crisis</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --ink-2: #3a3a3a;
+    --ink-3: #777;
+    --ink-4: #bbb;
+    --surface: #f6f5f1;
+    --white: #ffffff;
+    --border: rgba(0,0,0,0.09);
+    --border-strong: rgba(0,0,0,0.16);
+    --teal: #0f6e56;
+    --teal-light: #e1f5ee;
+    --teal-mid: #1d9e75;
+    --amber: #7a4600;
+    --amber-light: #fdf3e3;
+    --mono: 'Courier New', Courier, monospace;
+    --serif: 'Georgia', 'Times New Roman', serif;
+    --ui: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--surface);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 16px;
+    line-height: 1.75;
+    min-height: 100vh;
+  }
+
+  .top-bar { height: 5px; background: var(--ink); }
+
+  .page {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 2rem 6rem;
+  }
+
+  .masthead { padding: 3.5rem 0 2.5rem; border-bottom: 1.5px solid var(--ink); margin-bottom: 3rem; }
+
+  .framework-line {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 1.25rem;
+  }
+  .framework-line em { font-style: normal; color: var(--teal); font-weight: bold; }
+
+  h1 {
+    font-size: clamp(24px, 4.5vw, 38px);
+    font-weight: normal;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    margin-bottom: 0.75rem;
+  }
+
+  .doc-subtitle {
+    font-size: 16px;
+    color: var(--ink-2);
+    font-style: italic;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+  }
+
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 8px 24px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    margin-bottom: 1.25rem;
+  }
+  .meta-grid strong { color: var(--ink); display: block; font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 1px; }
+
+  .audience-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 1rem; }
+  .aud-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border: 1px solid var(--border-strong);
+    color: var(--ink-2);
+  }
+
+  .method-box {
+    background: var(--ink);
+    color: #e8e4dc;
+    padding: 1.75rem 2rem;
+    margin: 0 0 3rem;
+    font-family: var(--ui);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  .method-box h3 {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #9FE1CB;
+    margin-bottom: 0.75rem;
+    font-weight: normal;
+  }
+  .method-box p { color: #c8c4bc; margin-bottom: 0.6rem; }
+  .method-box p:last-child { margin-bottom: 0; }
+  .method-box strong { color: #e8e4dc; }
+
+  .section { margin-bottom: 3.5rem; }
+
+  .section-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-4);
+    margin-bottom: 0.4rem;
+  }
+
+  h2 {
+    font-size: 21px;
+    font-weight: normal;
+    letter-spacing: -0.01em;
+    border-bottom: 1px solid var(--border-strong);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  h3 {
+    font-size: 15px;
+    font-weight: bold;
+    font-family: var(--ui);
+    color: var(--ink);
+    margin: 1.75rem 0 0.6rem;
+    letter-spacing: 0.01em;
+  }
+
+  p { margin-bottom: 1rem; font-size: 15.5px; color: var(--ink-2); }
+  p:last-child { margin-bottom: 0; }
+
+  .pullquote {
+    border-left: 4px solid var(--ink);
+    margin: 1.75rem 0;
+    padding: 1rem 1.5rem;
+    background: var(--white);
+    font-size: 16px;
+    color: var(--ink);
+    line-height: 1.65;
+    font-style: italic;
+  }
+  .pullquote em { font-style: normal; font-weight: bold; color: var(--teal); }
+
+  .insight {
+    background: var(--ink);
+    color: #ede8e0;
+    padding: 1.5rem 1.75rem;
+    margin: 1.5rem 0;
+    font-size: 15px;
+    line-height: 1.7;
+    font-family: var(--ui);
+  }
+  .insight em { color: #9FE1CB; font-style: normal; font-weight: bold; }
+
+  .data-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border-strong);
+    border: 1px solid var(--border-strong);
+    margin: 1.5rem 0;
+  }
+  @media (max-width: 560px) { .data-row { grid-template-columns: 1fr 1fr; } }
+  .data-cell {
+    background: var(--white);
+    padding: 1rem 1.125rem;
+    text-align: center;
+  }
+  .data-num {
+    font-family: var(--mono);
+    font-size: 26px;
+    font-weight: bold;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .data-label { font-family: var(--ui); font-size: 11px; color: var(--ink-3); line-height: 1.4; }
+  .data-src { font-family: var(--mono); font-size: 9px; color: var(--ink-4); margin-top: 3px; }
+
+  .lens-table { width: 100%; border-collapse: collapse; margin: 1.25rem 0; font-size: 14px; }
+  .lens-table th {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    text-align: left;
+    padding: 6px 0 8px;
+    border-bottom: 1.5px solid var(--ink);
+  }
+  .lens-table td {
+    padding: 12px 16px 12px 0;
+    vertical-align: top;
+    border-bottom: 1px solid var(--border);
+    color: var(--ink-2);
+    line-height: 1.6;
+    font-family: var(--ui);
+  }
+  .lens-table td:first-child {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: bold;
+    color: var(--ink);
+    white-space: nowrap;
+    padding-right: 20px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    width: 100px;
+  }
+  .lens-table tr:last-child td { border-bottom: none; }
+  .lens-detail { font-size: 12px; color: var(--ink-3); margin-top: 4px; font-style: italic; }
+
+  .rule { height: 1px; background: var(--border-strong); margin: 3rem 0; }
+
+  .policy-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border-strong);
+    border: 1px solid var(--border-strong);
+    margin: 1.25rem 0;
+  }
+  @media (max-width: 500px) { .policy-grid { grid-template-columns: 1fr; } }
+  .policy-cell { background: var(--white); padding: 1rem 1.25rem; }
+  .policy-org { font-family: var(--mono); font-size: 11px; font-weight: bold; color: var(--ink); letter-spacing: 0.06em; margin-bottom: 6px; }
+  .policy-desc { font-size: 13px; color: var(--ink-2); line-height: 1.55; font-family: var(--ui); }
+
+  .model-section {
+    background: var(--white);
+    border: 1.5px solid var(--ink);
+    padding: 2rem;
+    margin: 1.75rem 0 1.25rem;
+  }
+
+  .model-eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 4px;
+  }
+  .model-title { font-size: 16px; font-weight: bold; font-family: var(--ui); color: var(--ink); margin-bottom: 3px; }
+  .model-sub { font-size: 11px; font-family: var(--mono); color: var(--ink-3); margin-bottom: 1rem; }
+
+  .badge-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+  .badge { font-family: var(--mono); font-size: 10px; letter-spacing: 0.03em; padding: 2px 8px; border: 1px solid; }
+  .badge-v { background: var(--teal-light); color: var(--teal); border-color: var(--teal-mid); }
+  .badge-a { background: var(--amber-light); color: var(--amber); border-color: #d4860a; }
+
+  .controls-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 1.5rem; }
+  @media (max-width: 580px) { .controls-grid { grid-template-columns: 1fr; } }
+
+  .ctrl-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+  .ctrl-val { font-family: var(--mono); font-size: 24px; font-weight: bold; color: var(--ink); margin-bottom: 6px; letter-spacing: -0.02em; }
+  .ctrl-range-labels { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 9px; color: var(--ink-4); margin-top: 3px; }
+
+  input[type=range] {
+    width: 100%; height: 3px;
+    -webkit-appearance: none; appearance: none;
+    background: var(--border-strong); outline: none; cursor: pointer;
+  }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; background: var(--ink); border-radius: 50%; }
+  input[type=range]::-moz-range-thumb { width: 16px; height: 16px; background: var(--ink); border-radius: 50%; border: none; }
+
+  .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 8px; }
+  @media (max-width: 480px) { .metrics-grid { grid-template-columns: 1fr 1fr; } }
+
+  .metric { padding: 12px 14px; background: var(--surface); border: 1px solid var(--border); }
+  .metric.primary { background: var(--white); border: 1px solid var(--border-strong); }
+  .metric-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 4px; }
+  .metric-val { font-family: var(--mono); font-size: 22px; font-weight: bold; color: var(--ink); line-height: 1; margin-bottom: 2px; }
+  .metric-unit { font-family: var(--mono); font-size: 10px; color: var(--ink-3); }
+
+  .chart-section { margin-top: 1.5rem; }
+  .chart-title { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); text-align: center; margin-bottom: 8px; }
+  .chart-wrap { position: relative; width: 100%; height: 180px; }
+
+  .precedent {
+    background: var(--teal-light);
+    border-left: 4px solid var(--teal-mid);
+    padding: 1rem 1.25rem;
+    margin-top: 1.5rem;
+  }
+  .precedent-title { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); font-weight: bold; margin-bottom: 6px; }
+  .precedent-text { font-size: 13px; color: var(--ink-2); line-height: 1.6; font-family: var(--ui); }
+
+  .assumptions { border: 1px solid var(--border); margin-top: 1.25rem; }
+  .assumptions-header { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); padding: 8px 12px; border-bottom: 1px solid var(--border); background: var(--surface); }
+  .assumption-row { display: flex; justify-content: space-between; align-items: baseline; padding: 7px 12px; font-family: var(--mono); font-size: 11px; border-bottom: 1px solid var(--border); gap: 1rem; }
+  .assumption-row:last-child { border-bottom: none; }
+  .assumption-key { color: var(--ink-2); flex-shrink: 0; }
+  .assumption-src { color: var(--ink-3); font-size: 10px; text-align: right; }
+
+  .interp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 1rem 0; }
+  @media (max-width: 480px) { .interp-grid { grid-template-columns: 1fr; } }
+  .interp-cell { border: 1px solid var(--border); padding: 10px 12px; }
+  .interp-scenario { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 4px; }
+  .interp-val { font-family: var(--mono); font-size: 16px; font-weight: bold; color: var(--ink); margin-bottom: 3px; }
+  .interp-desc { font-size: 12px; color: var(--ink-3); font-family: var(--ui); line-height: 1.4; }
+
+  .scope-box { border: 1px solid var(--border-strong); padding: 1.5rem; margin: 1.25rem 0; background: var(--white); }
+  .scope-box h3 { margin-top: 0; font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 0.75rem; font-weight: normal; }
+  .scope-item { display: flex; gap: 10px; margin-bottom: 8px; font-size: 13px; color: var(--ink-2); font-family: var(--ui); line-height: 1.5; }
+  .scope-marker { font-family: var(--mono); font-size: 11px; color: var(--ink-4); flex-shrink: 0; padding-top: 2px; }
+
+  .bib-list { list-style: none; font-family: var(--mono); font-size: 11px; color: var(--ink-3); }
+  .bib-list li { padding: 7px 0; border-bottom: 1px solid var(--border); line-height: 1.6; }
+  .bib-list li:last-child { border-bottom: none; }
+  .bib-list strong { color: var(--ink); }
+  .bib-num { color: var(--ink-4); margin-right: 8px; }
+
+  footer {
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    border-top: 1.5px solid var(--ink);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  footer strong { color: var(--ink); }
+
+  /* ── BA Enhancement Styles ── */
+  .bc-box {
+    border: 1.5px solid var(--teal);
+    padding: 1.75rem 2rem;
+    margin: 0 0 3rem;
+    background: var(--white);
+  }
+  .bc-eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 1rem;
+    font-weight: bold;
+  }
+  .bc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem 2rem;
+  }
+  @media (max-width: 560px) { .bc-grid { grid-template-columns: 1fr; } }
+  .bc-field strong {
+    display: block;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 4px;
+  }
+  .bc-field p {
+    font-family: var(--ui);
+    font-size: 13.5px;
+    color: var(--ink-2);
+    margin-bottom: 0;
+    line-height: 1.55;
+  }
+
+  .sh-table { width: 100%; border-collapse: collapse; margin: 1.25rem 0; font-size: 13px; }
+  .sh-table th {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    text-align: left;
+    padding: 6px 10px 8px 10px;
+    border-bottom: 1.5px solid var(--ink);
+    background: var(--surface);
+  }
+  .sh-table td {
+    padding: 10px 10px;
+    vertical-align: top;
+    border-bottom: 1px solid var(--border);
+    color: var(--ink-2);
+    line-height: 1.5;
+    font-family: var(--ui);
+    font-size: 13px;
+  }
+  .sh-table tr:last-child td { border-bottom: none; }
+  .sh-actor { font-family: var(--mono); font-size: 11px; font-weight: bold; color: var(--ink); letter-spacing: 0.04em; white-space: nowrap; }
+  .sh-high { color: #b33; font-weight: bold; font-family: var(--mono); font-size: 11px; }
+  .sh-med  { color: #7a4600; font-weight: bold; font-family: var(--mono); font-size: 11px; }
+  .sh-low  { color: var(--ink-3); font-family: var(--mono); font-size: 11px; }
+
+  .req-table { width: 100%; border-collapse: collapse; margin: 1.25rem 0; font-size: 13px; }
+  .req-table th {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    text-align: left;
+    padding: 6px 10px 8px 10px;
+    border-bottom: 1.5px solid var(--ink);
+    background: var(--surface);
+  }
+  .req-table td {
+    padding: 10px 10px;
+    vertical-align: top;
+    border-bottom: 1px solid var(--border);
+    color: var(--ink-2);
+    line-height: 1.5;
+    font-family: var(--ui);
+    font-size: 13px;
+  }
+  .req-table tr:last-child td { border-bottom: none; }
+  .req-id { font-family: var(--mono); font-size: 11px; font-weight: bold; color: var(--teal); white-space: nowrap; }
+  .req-must { background: rgba(15,110,86,0.06); }
+  .req-should { background: rgba(255,255,255,1); }
+  .pri-must { font-family: var(--mono); font-size: 10px; color: var(--teal); font-weight: bold; }
+  .pri-should { font-family: var(--mono); font-size: 10px; color: var(--amber); }
+
+  @media (max-width: 600px) { .page { padding: 0 1.25rem 4rem; } h1 { font-size: 22px; } }
+</style>
+</head>
+<body>
+
+<div class="top-bar"></div>
+<div class="page">
+
+<!-- ── MASTHEAD ── -->
+<div class="masthead">
+  <div class="framework-line">
+    <em>Léargas SI</em> · Systems Intelligence Framework · Analytical Whitepaper · v1.0
+  </div>
+  <h1>Stranded Watts: Why the World's Largest Wind Farm Can't Connect to the Grid</h1>
+  <p class="doc-subtitle">A Léargas SI Analysis of the Hornsea 3 Grid Connection Crisis and What It Reveals About the Systemic Design Failure Behind Europe's Offshore Wind Ambition</p>
+  <div class="meta-grid">
+    <div><strong>Author</strong>Ahmet Selahaddin Topbaş</div>
+    <div><strong>Lab</strong>TOPBASCH Systems Lab</div>
+    <div><strong>Framework</strong>Léargas SI v2</div>
+    <div><strong>Date</strong>May 2026</div>
+    <div><strong>Document Type</strong>Business Analysis Deliverable</div>
+    <div><strong>Reference</strong>TOPBASCH-BA-002</div>
+  </div>
+  <div class="audience-row">
+    <span class="aud-tag">Ørsted</span>
+    <span class="aud-tag">National Grid</span>
+    <span class="aud-tag">NESO</span>
+    <span class="aud-tag">DESNZ</span>
+    <span class="aud-tag">Ofgem</span>
+  </div>
+</div>
+
+<!-- ── METHODOLOGY NOTE ── -->
+<div class="method-box">
+  <h3>About Léargas SI — methodological note</h3>
+  <p>Léargas SI (Systems Intelligence) is a domain-specific analytical framework built on the foundation of the PESTLE methodology — refining it for energy system analysis. Where PESTLE applies six dimensions (Political, Economic, Social, Technological, Legal, Environmental) to strategic assessment, Léargas SI replaces the generic Economic and Environmental lenses with a domain-calibrated <strong>Exergetic lens</strong>, which evaluates not just energy quantity but thermodynamic quality and systemic recovery potential.</p>
+  <p>The result is a six-lens framework — Technical, Financial, Political, Ecological, Social, Exergetic — that retains PESTLE's structural familiarity while enabling analytically precise evaluation of energy infrastructure decisions. Where PESTLE asks "what is the environmental impact?", Léargas SI asks "what grade of energy is being stranded, and what is the systemic cost of not recovering it?" This distinction is analytically decisive wherever infrastructure bottlenecks convert high-quality energy potential into a stranded asset.</p>
+  <p>This whitepaper is the second published application of Léargas SI v2, following the Ireland Data Centre Grid Crisis analytical note (TOPBASCH Systems Lab, May 2026).</p>
+</div>
+
+<!-- ── BUSINESS CASE SUMMARY ── -->
+<div class="bc-box">
+  <div class="bc-eyebrow">Business Case Summary — BA Reference Document</div>
+  <div class="bc-grid">
+    <div class="bc-field">
+      <strong>Problem Statement</strong>
+      <p>Hornsea 3, the world's largest offshore wind farm (2.9 GW), cannot deliver power to the UK grid due to a delay at National Grid's Swardeston onshore converter station — infrastructure entirely outside the developer's control. This follows the cancellation of Hornsea 4 (2.4 GW) and a six-month overrun in NESO's connection reform process, establishing a pattern of systemic failure rather than isolated incident.</p>
+    </div>
+    <div class="bc-field">
+      <strong>Business Impact</strong>
+      <p>Confirmed 2-month delay: approximately £93M revenue foregone, 712,000 tonnes CO₂ avoidance lost, 3.3M homes unserved. Hornsea 4 cancellation: permanent loss of ~8.4 TWh/yr zero-carbon generation. Systemic risk: investor confidence in the UK offshore pipeline materially impaired, with cascading implications for the 50 GW by 2030 target.</p>
+    </div>
+    <div class="bc-field">
+      <strong>Recommended Action</strong>
+      <p>Activate four existing institutional levers — Ofgem transmission performance standard, NESO protected project delivery tracker, Grid Readiness Certificate as CfD pre-condition, and Crown Estate contractual readiness linkage — without requiring new legislation. Full requirements register in Section 6.</p>
+    </div>
+    <div class="bc-field">
+      <strong>Expected Outcome</strong>
+      <p>Elimination of the institutional accountability gap between offshore commissioning timelines and onshore grid readiness obligations. Restoration of developer confidence in the connection certainty required to sustain large-scale capital commitment to UK offshore wind.</p>
+    </div>
+    <div class="bc-field">
+      <strong>Primary Stakeholders</strong>
+      <p>NESO (connection delivery), Ofgem (regulatory lever), DESNZ (policy owner), National Grid (infrastructure obligation), Crown Estate (contractual lever), Ørsted (affected developer). Full stakeholder analysis in Section 3c.</p>
+    </div>
+    <div class="bc-field">
+      <strong>Document Status</strong>
+      <p>Independent analytical deliverable. Not commissioned by any of the named stakeholders. Prepared for direct outreach to energy system operators and transition strategy practitioners. Sources verified; model open-parameter and interactive.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── SECTION 1 ── -->
+<div class="section">
+  <div class="section-num">Section 1</div>
+  <h2>The Structural Tension</h2>
+
+  <p>The United Kingdom's Clean Power 2030 Action Plan commits to 50 GW of offshore wind capacity — a target that requires deploying approximately 5 GW per year between now and the end of the decade. Hornsea 3, at 2.9 GW, is not merely the world's largest offshore wind farm under construction. It is a cornerstone of that national target: a single project representing nearly 6% of the entire 2030 goal.</p>
+
+  <p>In May 2026, Ørsted CEO Rasmus Errboe confirmed that National Grid had informed the company of an onshore grid connection delay of up to two months for Hornsea 3. Construction of the wind farm itself is progressing according to plan — the turbines, foundations, offshore substations, and HVDC cable systems are on schedule. The bottleneck is not at sea. It is on land.</p>
+
+  <div class="data-row">
+    <div class="data-cell">
+      <div class="data-num">2.9 GW</div>
+      <div class="data-label">Hornsea 3 installed capacity — world's largest offshore wind farm</div>
+      <div class="data-src">Ørsted, 2026 [1]</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-num">£8.5bn</div>
+      <div class="data-label">Total project value — among the largest energy investments in UK history</div>
+      <div class="data-src">Ørsted / Apollo, 2025 [2]</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-num">3.3M</div>
+      <div class="data-label">UK homes to be powered once Hornsea 3 reaches full operation</div>
+      <div class="data-src">Ørsted, 2026 [1]</div>
+    </div>
+  </div>
+
+  <p>This delay is not an isolated incident. It is one data point in a systemic pattern: the United Kingdom's onshore grid infrastructure is failing to keep pace with its offshore generation ambition. The National Energy System Operator (NESO) — the body responsible for managing grid connections, formerly National Grid ESO — has faced persistent delays in its landmark connection queue reform process, running approximately six months behind its original schedule. The offshore wind category is now classified as fully subscribed to 2035 under the reformed pipeline.</p>
+
+  <p>Simultaneously, the broader Ørsted portfolio reflects the financial consequences of this structural misalignment. Hornsea 4 — a 2.4 GW project that had already secured a Contract for Difference in Allocation Round 6 — was discontinued in May 2025, eliminating a further 2.4 GW from the UK pipeline and widening the gap to the 50 GW target. The company sold a 50% stake in Hornsea 3 to Apollo Global Management for approximately €5.2 billion, a capital recycling move driven in part by the financial pressure of a delayed revenue stream.</p>
+
+  <div class="pullquote">
+    The wind turbines are ready. The export cables are laid. The offshore substations are installed. <em>The grid is not.</em> This is the central design failure of the UK's offshore wind buildout — and it is repeating itself at scale.
+  </div>
+</div>
+
+<!-- ── SECTION 2 ── -->
+<div class="section">
+  <div class="section-num">Section 2</div>
+  <h2>The Failure Chain</h2>
+
+  <h3>How a two-month delay becomes a systemic signal</h3>
+  <p>A two-month connection delay on a 2.9 GW project is, in isolation, operationally manageable. The CEO's statement that the financial impact is "relatively limited" is technically accurate at the project level. What the statement does not capture is what the delay reveals about the architecture of failure surrounding it.</p>
+
+  <p>The delay at Hornsea 3 originates at the onshore converter station at Swardeston, Norfolk — the point at which the HVDC cable system transitions from direct current to alternating current for injection into the National Grid transmission network. This infrastructure is National Grid's responsibility, not Ørsted's. The wind farm operator has delivered its side of the physical connection. The transmission system operator has not.</p>
+
+  <h3>The connection queue collapse</h3>
+  <p>The context is a UK grid connection system that had become structurally dysfunctional before NESO's reform process began. The pre-reform queue exceeded 700 GW of generation and storage applications for a system with approximately 100 GW of peak demand — a speculative accumulation that created artificial scarcity for genuinely ready projects. NESO's reform, intended to rationalise this queue by introducing readiness-based prioritisation, was itself subject to repeated delays: the Gate 2 application portal experienced technical failures, the initial timeline was missed by more than six months, and protected projects with 2026 connection dates faced capital uncertainty at exactly the moment they needed lender commitment.</p>
+
+  <div class="insight">
+    The NESO connection reform was designed to solve the queue crisis. Its own implementation delays became a second-order crisis for the projects it was meant to protect. <em>A reform that runs late is not a neutral event</em> — it redistributes risk onto developers who made financial commitments based on a published timeline. At Hornsea 3 scale, that risk is measured in tens of millions of pounds per month.
+  </div>
+
+  <h3>The Hornsea 4 discontinuation: permanent capacity loss</h3>
+  <p>The connection delay at Hornsea 3 is recoverable. The discontinuation of Hornsea 4 is not. When Ørsted cancelled the 2.4 GW project in May 2025, it cited rising supply chain costs, higher interest rates, and increased execution risk. These are real factors — but they do not exist in isolation from the grid connection environment. A project that cannot obtain reliable connection certainty faces compounded risk at every stage of its financing, supply chain contracting, and planning timeline. The decision to cancel Hornsea 4 was made in an environment where grid connection reliability had already become a systemic concern, not merely a project-specific one.</p>
+
+  <p>The aggregate consequence is straightforward: the UK's 50 GW by 2030 target has a growing structural gap, and the primary mechanism for filling it — large-scale offshore wind development — is being retarded by the infrastructure that is supposed to enable it.</p>
+</div>
+
+<!-- ── SECTION 3 ── -->
+<div class="section">
+  <div class="section-num">Section 3</div>
+  <h2>Six-Lens Assessment — Léargas SI v2</h2>
+
+  <table class="lens-table">
+    <thead><tr><th>Lens</th><th>Analysis</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Technical</td>
+        <td>
+          Hornsea 3 deploys HVDC Light® transmission technology — the appropriate solution for a 120 km offshore distance, converting AC generation output to DC for efficient long-distance transmission before reconverting at the Swardeston onshore converter station. This architecture places a critical single-point dependency on the onshore infrastructure: if the converter station is not ready, no power flows. The delay is therefore binary, not gradual — the farm cannot generate revenue at partial capacity while the grid connection matures.
+          <div class="lens-detail">Key constraint: HVDC systems require synchronised commissioning at both the offshore and onshore termination points. National Grid's onshore readiness is the rate-limiting variable, entirely outside Ørsted's operational control.</div>
+        </td>
+      </tr>
+      <tr>
+        <td>Financial</td>
+        <td>
+          Hornsea 3 operates under a split Contract for Difference structure: 1,820 MW awarded in Allocation Round 4 (July 2022) at £37.35/MWh, and 1,080 MW awarded in Allocation Round 6 (September 2024) at £54.23/MWh — both in 2012 base prices. After approximately 60% cumulative UK CPI inflation since 2012, the weighted average nominal 2026 strike is approximately £70/MWh. During the connection delay, no revenue is generated against the £8.5 billion capital investment. At central parameters (42% CF, £70/MWh nominal), each month of delay represents approximately £62M in foregone revenue. The confirmed two-month delay implies a direct revenue gap of approximately £124M — before accounting for debt service costs on the delayed return. The forced sale of a 50% stake to Apollo for €5.2 billion reflects the capital pressure created by a portfolio of delayed and cancelled projects; the connection delay at Hornsea 3 is one contributor to that pressure.
+          <div class="lens-detail">The dual-tranche CfD structure means the revenue impact is not uniform across the capacity: the AR6 tranche (£54.23/MWh base → ~£87/MWh nominal) carries higher per-MWh foregone revenue than the AR4 tranche (£37.35/MWh base → ~£60/MWh nominal). The weighted blended figure of ~£70/MWh is used in the model as the central scenario. Hornsea 4's cancellation involved sunk pre-development expenditure estimated in the hundreds of millions, in addition to the permanent loss of 2.4 GW of zero-carbon generation capacity.</div>
+        </td>
+      </tr>
+      <tr>
+        <td>Political</td>
+        <td>
+          The UK government's Clean Power 2030 Action Plan requires approximately 50 GW of offshore wind — a target that Labour has staked significant political capital on. NESO, which inherited responsibility for connection queue management from National Grid ESO in 2024, is a newly constituted institution navigating a structural backlog it did not create but is accountable for resolving. The connection reform process, delayed by six months, has created uncertainty for developers exactly when political momentum most requires certainty. Hornsea 4's cancellation adds a 2.4 GW gap to the target. If similar decisions cascade across other developers facing analogous financial and connection risk profiles, the 2030 target becomes structurally unreachable without new policy instruments.
+          <div class="lens-detail">The political framing of offshore wind as an energy security mechanism — reinforced by the Middle East fossil fuel price shock of 2026 — makes the grid connection bottleneck politically costly in ways not fully priced into the current regulatory response.</div>
+        </td>
+      </tr>
+      <tr>
+        <td>Ecological</td>
+        <td>
+          Each month Hornsea 3 does not generate power, the electricity that would have displaced gas-fired generation continues to be produced by that gas. At a central scenario, the two-month delay results in approximately 712,000 tonnes of CO₂ equivalent that could have been avoided — the emissions equivalent of approximately 150,000 UK households' annual carbon footprint. The Hornsea 4 cancellation represents a permanent annual loss of approximately 8.4 TWh of zero-carbon generation — electricity that will now need to come from elsewhere, at higher carbon intensity, for the duration of the planning and construction cycle of any replacement capacity.
+          <div class="lens-detail">The ecological cost of grid infrastructure delay is real but invisible to capacity-only reporting frameworks, which record planned capacity without accounting for the time-value of clean energy displacement.</div>
+        </td>
+      </tr>
+      <tr>
+        <td>Social</td>
+        <td>
+          3.3 million UK homes are waiting for the clean electricity Hornsea 3 will supply — a number large enough to constitute a meaningful share of the UK's residential electrification target. Beyond end consumers, the social impact concentrates in the supply chain. SeAH Wind — a South Korean-owned monopile manufacturer that established the UK's first XXL monopile factory at Teesworks, Redcar, at significant public and private investment — was unable to fulfil its Hornsea 3 contract. The factory experienced production failures and labour disputes, and the contract was terminated by mutual agreement. The social promise of an offshore wind supply chain creating UK manufacturing employment has been materially undermined. Ørsted's announcement of approximately 2,000 global redundancies by end-2027 reflects the human cost of a portfolio under financial stress.
+        </td>
+      </tr>
+      <tr>
+        <td>Exergetic</td>
+        <td>
+          This is the analytically decisive lens. The North Sea wind resource at the Hornsea zone — approximately 120 km off the Yorkshire coast — is exergetically rich: high average wind speeds, high capacity factor (~42–45%), and consistent generation profile. The turbines, once spinning, will produce electrical energy at full grid quality — the maximum exergetic grade of energy. The onshore grid connection is not a thermodynamic constraint. It is an institutional and infrastructure constraint that functions identically to a thermodynamic chokepoint: it converts high-quality, ready-to-deliver energy into a stranded asset with zero current exergetic value. The financial loss is the monetised expression of this exergetic destruction. More structurally: the CfD market design prices energy volume upon delivery but contains no mechanism to price grid readiness as a prerequisite for delivery. A developer who builds a wind farm that cannot connect captures no CfD revenue, and no compensation framework exists for grid-side delays. This is the same structural market design gap identified in the Ireland Data Centre Grid Crisis note — manifested differently but rooted in the same design failure: the system does not price the infrastructure preconditions of the energy it is trying to produce.
+          <div class="lens-detail">Exergetic analysis reveals that the bottleneck is not in generation — it is in the institutional architecture that governs the final conversion of physical energy into economic value. Solving the generation problem without solving the connection problem is not a solution.</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ── SECTION 3b ── -->
+<div class="section">
+  <div class="section-num">Section 3b</div>
+  <h2>Revenue & Carbon Impact — Live Model</h2>
+
+  <p>Framework analysis requires empirical anchoring. The model below quantifies the financial and ecological cost of grid connection delay at Hornsea 3 scale. All parameters are visible, all sources are cited, and the model is interactive: adjust delay duration, capacity factor, and strike price to test sensitivity across scenarios.</p>
+
+  <div class="model-section">
+    <div class="model-eyebrow">Interactive simulation · adjust parameters to test sensitivity</div>
+    <div class="model-title">Grid Connection Delay Impact — Hornsea 3 (2.9 GW offshore wind)</div>
+    <div class="model-sub">Léargas SI · Section 3b · Quantitative model v1.0 · May 2026</div>
+
+    <div class="badge-row">
+      <span class="badge badge-v">✓ 2.9 GW capacity · Ørsted, 2026</span>
+      <span class="badge badge-v">✓ AR4: £37.35/MWh · AR6: £54.23/MWh · 2012 prices · Ørsted/DESNZ</span>
+      <span class="badge badge-v">✓ 11,000 kWh/yr/home · BEIS</span>
+      <span class="badge badge-v">✓ 0.4 t CO₂/MWh · UK gas backup · DESNZ</span>
+      <span class="badge badge-a">~ Weighted nominal 2026 strike ~£70/MWh · CPI-indexed estimate</span>
+      <span class="badge badge-a">~ Capacity factor · adjustable</span>
+      <span class="badge badge-a">~ Strike price · adjustable</span>
+      <span class="badge badge-a">~ Delay duration · adjustable</span>
+    </div>
+
+    <div class="controls-grid">
+      <div>
+        <div class="ctrl-label">Connection delay</div>
+        <div class="ctrl-val" id="delay-display">2 months</div>
+        <input type="range" min="1" max="6" value="2" step="1" id="delay-slider" aria-label="Delay duration slider">
+        <div class="ctrl-range-labels"><span>1 month</span><span>6 months</span></div>
+      </div>
+      <div>
+        <div class="ctrl-label">Capacity factor</div>
+        <div class="ctrl-val" id="cf-display">42%</div>
+        <input type="range" min="35" max="50" value="42" step="1" id="cf-slider" aria-label="Capacity factor slider">
+        <div class="ctrl-range-labels"><span>35% low</span><span>50% optimal</span></div>
+      </div>
+      <div>
+        <div class="ctrl-label">CfD strike price (nominal est.)</div>
+        <div class="ctrl-val" id="price-display">£70</div>
+        <input type="range" min="55" max="95" value="70" step="1" id="price-slider" aria-label="Strike price slider">
+        <div class="ctrl-range-labels"><span>£55/MWh</span><span>£95/MWh</span></div>
+      </div>
+    </div>
+
+    <div class="metrics-grid">
+      <div class="metric primary"><div class="metric-label">Revenue foregone</div><div class="metric-val" id="m-revenue">—</div><div class="metric-unit">£M · CfD basis</div></div>
+      <div class="metric primary"><div class="metric-label">CO₂ equivalent</div><div class="metric-val" id="m-co2">—</div><div class="metric-unit">tonnes · gas backup</div></div>
+      <div class="metric primary"><div class="metric-label">Home-months lost</div><div class="metric-val" id="m-homemonths">—</div><div class="metric-unit">clean power not delivered</div></div>
+    </div>
+
+    <div class="chart-section">
+      <div class="chart-title">Revenue foregone (£M) vs. delay duration — at selected capacity factor & price</div>
+      <div class="chart-wrap">
+        <canvas id="delay-chart" role="img" aria-label="Line chart showing revenue impact increasing with delay duration from 1 to 6 months"></canvas>
+      </div>
+    </div>
+
+    <div class="precedent">
+      <div class="precedent-title">Stated delay — Ørsted CEO confirmation, May 2026</div>
+      <p class="precedent-text">Rasmus Errboe confirmed in Ørsted's Q1 2026 results call that National Grid had notified the company of an onshore connection delay of up to two months for Hornsea 3. Construction of the wind farm is described as progressing "according to plan." The delay originates at the Swardeston, Norfolk converter station — National Grid's onshore infrastructure responsibility. The confirmed two-month scenario (central parameters: 42% CF, £70/MWh estimated nominal strike) implies approximately £124M in foregone CfD revenue and 712,000 tonnes of CO₂ equivalent avoidance lost. [1, 6] Hornsea 3's CfD structure comprises two tranches: 1,820 MW awarded in Allocation Round 4 at £37.35/MWh (2012 prices), and 1,080 MW awarded in Allocation Round 6 at £54.23/MWh (2012 prices) — a weighted average of £43.63/MWh in 2012 prices, implying approximately £70/MWh in 2026 nominal terms after approximately 60% cumulative UK CPI inflation since 2012. [10, 11]</p>
+    </div>
+
+    <div class="assumptions">
+      <div class="assumptions-header">Assumption transparency — all sources cited</div>
+      <div class="assumption-row"><span class="assumption-key">IT capacity — Hornsea 3</span><span class="assumption-src">2,900 MW · Ørsted, 2026 [1]</span></div>
+      <div class="assumption-row"><span class="assumption-key">Residential electricity demand</span><span class="assumption-src">11,000 kWh/yr · BEIS Household Energy Statistics [5]</span></div>
+      <div class="assumption-row"><span class="assumption-key">UK gas backup carbon factor</span><span class="assumption-src">0.4 t CO₂/MWh · DESNZ Grid Carbon Intensity [7]</span></div>
+      <div class="assumption-row"><span class="assumption-key">CfD strike price — AR4 tranche (1,820 MW)</span><span class="assumption-src">£37.35/MWh · 2012 prices · Ørsted/DESNZ, July 2022 [10]</span></div>
+      <div class="assumption-row"><span class="assumption-key">CfD strike price — AR6 tranche (1,080 MW)</span><span class="assumption-src">£54.23/MWh · 2012 prices · Ørsted/DESNZ, September 2024 [10]</span></div>
+      <div class="assumption-row"><span class="assumption-key">Weighted average nominal 2026 estimate</span><span class="assumption-src">~£70/MWh · 2012 base × ~60% UK CPI 2012→2026 · ONS [11]</span></div>
+      <div class="assumption-row"><span class="assumption-key">Hours per month</span><span class="assumption-src">730 hrs · standard energy industry convention</span></div>
+      <div class="assumption-row"><span class="assumption-key">Model boundary</span><span class="assumption-src">Direct revenue and carbon only · excludes debt service, supply chain, reputational costs</span></div>
+    </div>
+  </div>
+
+  <h3>Interpreting the delay scenarios</h3>
+  <p>The three scenarios below represent qualitatively distinct failure modes, not merely quantitative variations. Each implies different policy responses and different levels of systemic risk.</p>
+
+  <div class="interp-grid">
+    <div class="interp-cell">
+      <div class="interp-scenario">Contained</div>
+      <div class="interp-val" id="s-contained">—</div>
+      <div class="interp-desc">2 months, 38% CF, £62/MWh. Confirmed delay, managed impact. AR4 tranche revenue basis. Requires no structural response — only project-level mitigation.</div>
+    </div>
+    <div class="interp-cell">
+      <div class="interp-scenario">Extended</div>
+      <div class="interp-val" id="s-extended">—</div>
+      <div class="interp-desc">4 months, 42% CF, £70/MWh. NESO reform delays cascade into physical connection. Blended AR4+AR6 basis. Signals systemic risk to investors across the pipeline.</div>
+    </div>
+    <div class="interp-cell">
+      <div class="interp-scenario">Systemic</div>
+      <div class="interp-val" id="s-systemic">—</div>
+      <div class="interp-desc">6 months, 45% CF, £80/MWh. Infrastructure failure pattern. AR6 tranche nominal basis. Policy response mandatory; investor confidence in UK offshore pipeline materially impaired.</div>
+    </div>
+  </div>
+
+  <p style="font-size:13px; color: var(--ink-3); font-family: var(--ui); margin-top: 1rem;">
+    <em>Model boundary:</em> These figures represent direct CfD revenue foregone and avoided-carbon-displacement lost during the connection delay period. They exclude: ongoing debt service on the £8.5bn capital stack, supply chain penalty exposure, reputational impact on future project financing, and the systemic effects of reduced investor confidence across the UK offshore wind pipeline. The true cost of the delay, system-wide, substantially exceeds the figures shown.
+  </p>
+</div>
+
+<div class="rule"></div>
+
+<!-- ── SECTION 3c ── -->
+<div class="section">
+  <div class="section-num">Section 3c</div>
+  <h2>Stakeholder Impact Analysis</h2>
+
+  <p>Effective policy response requires mapping each institutional actor's interest, constraint, and available lever — not merely identifying who holds authority. The matrix below applies standard stakeholder analysis methodology to the Hornsea 3 crisis, establishing the basis for the requirements register in Section 6.</p>
+
+  <table class="sh-table">
+    <thead>
+      <tr>
+        <th>Actor</th>
+        <th>Role in System</th>
+        <th>Primary Interest</th>
+        <th>Key Constraint</th>
+        <th>Available Lever</th>
+        <th>Influence</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><div class="sh-actor">NESO</div></td>
+        <td>Connection queue management and reform delivery</td>
+        <td>Deliver Gate 2 reform on time; demonstrate institutional credibility as newly constituted operator</td>
+        <td>Reform process already six months overdue; internal capacity constraints inherited from ESO transition</td>
+        <td>Protected project delivery tracker with published milestones and consequence clauses</td>
+        <td><span class="sh-high">HIGH</span></td>
+      </tr>
+      <tr>
+        <td><div class="sh-actor">Ofgem</div></td>
+        <td>Economic regulator for electricity transmission</td>
+        <td>Maintain competitive, reliable energy supply; protect consumers from systemic risk</td>
+        <td>Existing regulatory frameworks lack connection readiness obligation tied to offshore commissioning dates</td>
+        <td>Transmission Connection Performance Standard — financial accountability for onshore delays</td>
+        <td><span class="sh-high">HIGH</span></td>
+      </tr>
+      <tr>
+        <td><div class="sh-actor">National Grid</div></td>
+        <td>Onshore transmission infrastructure owner and operator</td>
+        <td>Manage capital programme delivery within revenue allowance; avoid regulatory penalty</td>
+        <td>Swardeston converter station readiness delayed; no current consequence mechanism for grid-side delay</td>
+        <td>Subject of performance standard — incentive structure currently absent; requires Ofgem activation</td>
+        <td><span class="sh-high">HIGH</span></td>
+      </tr>
+      <tr>
+        <td><div class="sh-actor">DESNZ</div></td>
+        <td>Political owner of 50 GW by 2030 Clean Power target</td>
+        <td>Deliver headline climate commitment; maintain investor confidence in UK energy transition</td>
+        <td>Has not yet activated cross-institutional delivery mechanism linking CfD timelines to grid readiness</td>
+        <td>Grid Readiness Certificate as mandatory pre-condition for CfD activation</td>
+        <td><span class="sh-med">MED–HIGH</span></td>
+      </tr>
+      <tr>
+        <td><div class="sh-actor">Crown Estate</div></td>
+        <td>Seabed rights lessor for offshore wind development</td>
+        <td>Maximise long-term value of offshore wind leases; maintain viable development pipeline</td>
+        <td>Seabed lease structure currently decoupled from onshore grid readiness obligations</td>
+        <td>Contractual linkage: lease renewal/extension rights tied to grid connection readiness confirmation</td>
+        <td><span class="sh-med">MED</span></td>
+      </tr>
+      <tr>
+        <td><div class="sh-actor">Ørsted</div></td>
+        <td>Developer and operator; primary affected party</td>
+        <td>Revenue certainty on £8.5bn capital investment; restore investor confidence after Hornsea 4 cancellation</td>
+        <td>No compensation framework for grid-side delays; financial exposure without regulatory recourse</td>
+        <td>Advocacy for performance standard and Grid Readiness Certificate; escalation through Ofgem</td>
+        <td><span class="sh-med">MED</span></td>
+      </tr>
+      <tr>
+        <td><div class="sh-actor">Apollo / Investors</div></td>
+        <td>50% equity holder; capital markets signal</td>
+        <td>Predictable return profile; connection date certainty as underwriting assumption</td>
+        <td>Connection uncertainty creates risk premium across future UK offshore transactions</td>
+        <td>Investor sentiment — indirect pressure on DESNZ and NESO via capital market signalling</td>
+        <td><span class="sh-low">LOW–MED</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="pullquote">
+    The grid connection crisis is not a bilateral dispute between Ørsted and National Grid. It is a <em>multi-actor institutional failure</em> — one where each stakeholder holds a partial lever, but no actor holds the full accountability chain. Effective resolution requires activating all four institutional levers in combination, not sequentially.
+  </div>
+</div>
+
+<!-- ── SECTION 4 ── -->
+<div class="section">
+  <div class="section-num">Section 4</div>
+  <h2>Policy Response Framework — Existing Levers, Unused</h2>
+
+  <p>The grid connection bottleneck is not a problem without available solutions. It is a problem where solutions exist but have not been activated with sufficient urgency or coherence. Four institutional actors hold the levers. None has yet used them in combination.</p>
+
+  <div class="policy-grid">
+    <div class="policy-cell">
+      <div class="policy-org">NESO</div>
+      <p class="policy-desc">The National Energy System Operator is responsible for the connection queue and the delivery of connection reform. The six-month delay in the Gate 2 process must be treated as a structural accountability failure, not a technical scheduling matter. NESO requires a dedicated delivery mechanism — with published milestone dates and consequence clauses — for protected projects above 500 MW that have already committed capital. The current reform framework has no explicit penalty structure for NESO-side delays on protected projects.</p>
+    </div>
+    <div class="policy-cell">
+      <div class="policy-org">Ofgem</div>
+      <p class="policy-desc">As the economic regulator for electricity transmission, Ofgem sets the revenue allowances and performance obligations for National Grid's onshore transmission infrastructure. Current regulatory frameworks do not include a connection readiness obligation tied to offshore wind commissioning dates. A transmission connection performance standard — analogous to distribution quality of service obligations — would create financial accountability for onshore infrastructure delays that impose costs on developers.</p>
+    </div>
+    <div class="policy-cell">
+      <div class="policy-org">DESNZ</div>
+      <p class="policy-desc">The Department for Energy Security and Net Zero is the political owner of the 50 GW by 2030 target. The department has not yet activated a cross-institutional delivery mechanism that connects CfD award timelines to onshore grid readiness obligations. A project-level grid connection readiness certificate — required as a condition of CfD activation — would force NESO and National Grid to confirm onshore readiness before offshore construction reaches final commissioning, eliminating the current timing gap.</p>
+    </div>
+    <div class="policy-cell">
+      <div class="policy-org">The Crown Estate</div>
+      <p class="policy-desc">The Crown Estate leases seabed rights for offshore wind development and has a structural interest in the viability of the projects it enables. A contractual mechanism linking seabed lease renewal or extension rights to grid connection readiness confirmation — at both the developer and transmission operator level — would create a new institutional lever for enforcing onshore grid delivery timelines without requiring new legislation.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── SECTION 5 ── -->
+<div class="section">
+  <div class="section-num">Section 5</div>
+  <h2>Scope and Limitations</h2>
+
+  <div class="scope-box">
+    <h3>What this paper claims — and does not claim</h3>
+    <div class="scope-item"><span class="scope-marker">✓</span><span>The grid connection delay at Hornsea 3 is confirmed by Ørsted's CEO and constitutes a measurable financial and ecological cost, quantified in the interactive model above.</span></div>
+    <div class="scope-item"><span class="scope-marker">✓</span><span>The pattern of delays — NESO reform running six months late, Hornsea 4 cancelled, offshore wind queue oversubscribed to 2035 — constitutes systemic evidence of an institutional and market design failure, not a sequence of isolated incidents.</span></div>
+    <div class="scope-item"><span class="scope-marker">✓</span><span>The four institutional response levers identified in Section 4 are each within existing authority — no new legislation or institutions are required to implement them.</span></div>
+    <div class="scope-item"><span class="scope-marker">○</span><span>This paper does not model the full financial impact on Ørsted's corporate balance sheet, which requires access to internal project financing structures not publicly disclosed.</span></div>
+    <div class="scope-item"><span class="scope-marker">○</span><span>The carbon impact figures are derived from a grid average gas backup assumption. Actual displaced generation mix varies by time of day and season; the figures represent an order-of-magnitude estimate, not engineering precision.</span></div>
+    <div class="scope-item"><span class="scope-marker">○</span><span>The Léargas SI Exergetic lens characterises the bottleneck as an institutional-architectural chokepoint rather than a thermodynamic one. This is an analytical extension of exergetic thinking to system design — not a standard engineering exergy calculation. The analytical insight is valid; the terminology requires contextual explanation for audiences unfamiliar with the Léargas SI framework.</span></div>
+  </div>
+</div>
+
+<!-- ── SECTION 6 ── -->
+<div class="section">
+  <div class="section-num">Section 6</div>
+  <h2>Recommended Next Step</h2>
+
+  <p>The immediate policy recommendation is proportionate to the scale demonstrated. A confirmed two-month delay on the world's largest offshore wind farm — with a further 2.4 GW project already cancelled — is sufficient evidence to trigger a formal review of the institutional accountability gap between offshore wind commissioning timelines and onshore grid readiness obligations.</p>
+
+  <p>That review should:</p>
+
+  <p>— Establish a Transmission Connection Performance Standard under Ofgem's existing regulatory authority, creating financial consequences for National Grid when onshore infrastructure readiness lags behind offshore commissioning dates confirmed in the CfD schedule<br>
+  — Require NESO to publish a protected project delivery tracker — project-by-project, milestone-by-milestone — with mandatory explanations for any deviation from confirmed connection offer dates<br>
+  — Introduce a Grid Readiness Certificate as a pre-condition for CfD activation, requiring NESO and National Grid to jointly confirm onshore readiness before the offshore commissioning window opens<br>
+  — Commission a systemic review of the Hornsea 4 discontinuation decision to establish whether grid connection uncertainty was a material factor — and whether regulatory design changes could have prevented it</p>
+
+  <div class="insight">
+    The United Kingdom has the North Sea wind resource, the engineering capability, the financing architecture, and the political commitment to reach 50 GW by 2030. What it lacks is an institutional mechanism that treats the onshore grid connection as a co-equal delivery obligation alongside the offshore generation asset. <em>The bottleneck is not the wind. It is the design of the system that is supposed to carry it.</em> That is a solvable problem — but only if it is named as one.
+  </div>
+
+  <h3>Functional Requirements Register</h3>
+  <p>The following requirements register translates the policy recommendations above into structured functional requirements, specifying responsible authority, acceptance criterion, and priority classification for each item.</p>
+
+  <table class="req-table">
+    <thead>
+      <tr>
+        <th>Req. ID</th>
+        <th>Requirement</th>
+        <th>Responsible Authority</th>
+        <th>Acceptance Criterion</th>
+        <th>Priority</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="req-must">
+        <td><div class="req-id">REQ-01</div></td>
+        <td>A Transmission Connection Performance Standard shall be established under Ofgem's existing regulatory authority, creating defined financial consequences for National Grid when onshore infrastructure readiness lags behind offshore commissioning dates confirmed in the CfD schedule.</td>
+        <td>Ofgem</td>
+        <td>Performance standard published, financial penalty mechanism defined, and first annual assessment cycle initiated within 12 months of policy activation.</td>
+        <td><span class="pri-must">MUST HAVE</span></td>
+      </tr>
+      <tr class="req-must">
+        <td><div class="req-id">REQ-02</div></td>
+        <td>NESO shall publish and maintain a protected project delivery tracker — project-by-project, milestone-by-milestone — with mandatory written explanation for any deviation from confirmed connection offer dates exceeding 30 days.</td>
+        <td>NESO</td>
+        <td>Tracker publicly available, updated at minimum monthly, covering all projects above 500 MW with confirmed connection dates within 36 months.</td>
+        <td><span class="pri-must">MUST HAVE</span></td>
+      </tr>
+      <tr class="req-must">
+        <td><div class="req-id">REQ-03</div></td>
+        <td>A Grid Readiness Certificate shall be introduced as a mandatory pre-condition for CfD activation. NESO and National Grid shall jointly confirm onshore connection readiness before the offshore commissioning window opens.</td>
+        <td>DESNZ / NESO / National Grid</td>
+        <td>Certificate framework legislated or established through licence condition; no CfD payment period begins without joint readiness confirmation; first application within the 2026–2027 commissioning cohort.</td>
+        <td><span class="pri-must">MUST HAVE</span></td>
+      </tr>
+      <tr class="req-should">
+        <td><div class="req-id">REQ-04</div></td>
+        <td>The Crown Estate should introduce contractual linkage between seabed lease renewal and grid connection readiness confirmation at the developer and transmission operator level, creating an institutional lever for enforcing onshore delivery timelines without requiring new primary legislation.</td>
+        <td>Crown Estate</td>
+        <td>Contractual mechanism included in lease terms for all new or renewed seabed agreements from 2027 onward; Crown Estate to publish readiness confirmation requirement within lease documentation.</td>
+        <td><span class="pri-should">SHOULD HAVE</span></td>
+      </tr>
+      <tr class="req-should">
+        <td><div class="req-id">REQ-05</div></td>
+        <td>A systemic review of the Hornsea 4 discontinuation decision should be commissioned to establish whether grid connection uncertainty was a material contributing factor, and whether regulatory design changes in place at the time of discontinuation could have altered the outcome.</td>
+        <td>DESNZ / Ofgem</td>
+        <td>Review terms of reference published within 6 months; findings published within 18 months; recommendations incorporated into the next iteration of the connection reform framework.</td>
+        <td><span class="pri-should">SHOULD HAVE</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:12px; color: var(--ink-3); font-family: var(--mono); margin-top: 0.75rem;">Priority classification: MUST HAVE — essential for minimum viable policy response. SHOULD HAVE — recommended for systemic completeness; absence creates residual risk. All requirements are within existing institutional authority — no new primary legislation required for REQ-01 through REQ-04.</p>
+</div>
+
+<div class="rule"></div>
+
+<!-- ── BIBLIOGRAPHY ── -->
+<div class="section">
+  <div class="section-num">References</div>
+  <h2>Bibliography</h2>
+  <ul class="bib-list">
+    <li><span class="bib-num">[1]</span> <strong>Ørsted A/S.</strong> Q1 2026 Results — CEO Statement on Hornsea 3 Grid Connection Delay. Windpower Monthly / Utility Week, May 2026. windpowermonthly.com · utilityweek.co.uk</li>
+    <li><span class="bib-num">[2]</span> <strong>Ørsted / Apollo Global Management.</strong> Hornsea 3 50% stake sale — €5.2 billion transaction. Press releases and market reports, late 2025. orsted.com</li>
+    <li><span class="bib-num">[3]</span> <strong>Ørsted A/S.</strong> Company Announcement: Discontinuation of Hornsea 4 offshore wind project. May 2025. orsted.com</li>
+    <li><span class="bib-num">[4]</span> <strong>NESO / DCD.</strong> NESO reveals results of UK grid connection reforms — 238 GW pipeline retained from 700 GW+ queue. March 2026. datacenterdynamics.com · neso.energy</li>
+    <li><span class="bib-num">[5]</span> <strong>BEIS.</strong> Household Energy Statistics. UK Department for Business, Energy and Industrial Strategy. 11,000 kWh/yr average household electricity and heat demand reference. gov.uk</li>
+    <li><span class="bib-num">[6]</span> <strong>Solar Power Portal / Lexology.</strong> Grid connection offers delayed again — NESO timeline slippage analysis. February 2026. solarpowerportal.co.uk · lexology.com</li>
+    <li><span class="bib-num">[7]</span> <strong>DESNZ.</strong> UK Grid Carbon Intensity — gas peaker backup emission factor 0.4 t CO₂/MWh. Department for Energy Security and Net Zero, 2025. gov.uk</li>
+    <li><span class="bib-num">[8]</span> <strong>Offshore Wind Biz.</strong> Ørsted restructuring: ~2,000 redundancies by end-2027. October 2025. offshorewind.biz</li>
+    <li><span class="bib-num">[9]</span> <strong>Energy Voice / Offshore Wind Biz.</strong> Ørsted and SeAH Wind cancel Hornsea 3 monopile contract — production failures and supply chain breakdown at Teesworks. February 2026. energyvoice.com</li>
+    <li><span class="bib-num">[10]</span> <strong>Ørsted A/S / DESNZ.</strong> AR4 CfD award for Hornsea 3: £37.35/MWh (2012 prices), July 2022. AR6 CfD award: 1,080 MW of Hornsea 3 at £54.23/MWh (2012 prices); 2,400 MW Hornsea 4 at £58.87/MWh (2012 prices), September 2024. orsted.com · gov.uk</li>
+    <li><span class="bib-num">[11]</span> <strong>ONS / Bank of England.</strong> UK Consumer Price Index — cumulative inflation 2012 to 2026 approximately 58–62%, based on annual CPI series D7G7. Nominal strike price estimates derived by applying ~60% CPI uplift to 2012-base contract prices. ons.gov.uk · bankofengland.co.uk</li>
+  </ul>
+</div>
+
+</div>
+
+<!-- ── FOOTER ── -->
+<div class="page" style="padding-top:0;">
+  <footer>
+    <div>
+      <strong>TOPBASCH Systems Lab</strong><br>
+      Léargas SI Analytical Framework v2<br>
+      Ahmet Selahaddin Topbaş · ATÜ · May 2026
+    </div>
+    <div style="text-align: right;">
+      Methodology: Léargas SI (PESTLE + Exergetic lens)<br>
+      Model: quantitative, open-parameter, interactive<br>
+      TOPBASCH Systems Lab-002
+    </div>
+  </footer>
+</div>
+
+<script>
+const CAP_GW = 2.9;
+const CARBON = 0.4;
+const HOME_KWH_MONTH = 11000 / 12;
+
+function calcRevenue(delay, cf, price) {
+  const hours = delay * 730;
+  const energy = CAP_GW * 1000 * (cf / 100) * hours;
+  return (energy * price / 1e6).toFixed(1);
+}
+
+function calcCO2(delay, cf) {
+  const hours = delay * 730;
+  const energy = CAP_GW * 1000 * (cf / 100) * hours;
+  return Math.round(energy * CARBON).toLocaleString('en-GB');
+}
+
+function calcHomeMonths(delay, cf) {
+  const hours = delay * 730;
+  const energy_kwh = CAP_GW * 1000 * 1000 * (cf / 100) * hours;
+  return Math.round(energy_kwh / HOME_KWH_MONTH).toLocaleString('en-GB');
+}
+
+let chart;
+
+function initChart() {
+  chart = new Chart(document.getElementById('delay-chart'), {
+    type: 'line',
+    data: {
+      labels: ['1', '2', '3', '4', '5', '6'],
+      datasets: [{
+        label: 'Revenue foregone (£M)',
+        data: [],
+        borderColor: '#0f6e56',
+        backgroundColor: 'rgba(15,110,86,0.07)',
+        borderWidth: 2, fill: true, tension: 0.3,
+        pointRadius: 4, pointBackgroundColor: '#0f6e56',
+        pointBorderColor: '#fff', pointBorderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ' £' + ctx.parsed.y.toFixed(1) + 'M foregone' } }
+      },
+      scales: {
+        x: {
+          title: { display: true, text: 'Delay (months)', font: { size: 10, family: 'Courier New' }, color: '#999' },
+          ticks: { font: { size: 10, family: 'Courier New' }, color: '#999' },
+          grid: { display: false }
+        },
+        y: {
+          ticks: { font: { size: 10, family: 'Courier New' }, color: '#999', callback: v => '£' + v + 'M' },
+          grid: { color: 'rgba(0,0,0,0.04)' }
+        }
+      }
+    }
+  });
+}
+
+function updateChart(cf, price) {
+  const delays = [1, 2, 3, 4, 5, 6];
+  chart.data.datasets[0].data = delays.map(d => parseFloat(calcRevenue(d, cf, price)));
+  chart.update('none');
+}
+
+function updateScenarios() {
+  document.getElementById('s-contained').textContent = '£' + calcRevenue(2, 38, 62) + 'M';
+  document.getElementById('s-extended').textContent = '£' + calcRevenue(4, 42, 70) + 'M';
+  document.getElementById('s-systemic').textContent = '£' + calcRevenue(6, 45, 80) + 'M';
+}
+
+function calc() {
+  const delay = parseInt(document.getElementById('delay-slider').value);
+  const cf = parseInt(document.getElementById('cf-slider').value);
+  const price = parseInt(document.getElementById('price-slider').value);
+
+  document.getElementById('delay-display').textContent = delay === 1 ? '1 month' : delay + ' months';
+  document.getElementById('cf-display').textContent = cf + '%';
+  document.getElementById('price-display').textContent = '£' + price;
+
+  document.getElementById('m-revenue').textContent = '£' + calcRevenue(delay, cf, price) + 'M';
+  document.getElementById('m-co2').textContent = calcCO2(delay, cf);
+  document.getElementById('m-homemonths').textContent = calcHomeMonths(delay, cf);
+
+  updateChart(cf, price);
+}
+
+window.addEventListener('load', () => {
+  initChart();
+  updateScenarios();
+  calc();
+  ['delay-slider', 'cf-slider', 'price-slider'].forEach(id =>
+    document.getElementById(id).addEventListener('input', calc)
+  );
+});
+</script>
+</body>
+</html>
